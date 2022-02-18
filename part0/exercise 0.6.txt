@@ -1,0 +1,11 @@
+title Sequence Diagram of Add note in SPA
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server --> browser: JSON File confirmation {"message":"note created"}
+
+note over browser:
+browser executes the event handler
+that renders notes to display 
+and append new note to note list in html file
+and now browser show additional new notes on bottom of the page
+end note

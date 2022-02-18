@@ -1,0 +1,23 @@
+title Sequence Diagram of traditional web app when add new note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+server --> browser : Instruction to redirect to  https://studies.cs.helsinki.fi/exampleapp/notes
+browser -> server : HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server --> browser : HTML Code
+browser -> server : HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server --> browser : CSS Code
+browser -> server : HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server --> browser : JS Code
+
+note over browser:
+browser executing js-code
+that requests JSON data from server 
+end note
+
+browser -> server : HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server --> browser : JSON File : [{"content":"Believe me Believe me","date":"2022- ...."}
+
+note over browser:
+browser executes the event handler
+that renders notes to display
+end note
