@@ -1,17 +1,26 @@
+const seedrandom = require('seedrandom');
+
 const Header = (props) => {
-  return (
+  return <h1>{props.course}</h1>
+}
+
+const Identity = (props) => {
+  const campuses = ['Harvard', 'Yale University', 'Priceton', 'Columbia University', 'Upenn', 'University of Helsinki', 'TU Munich']
+  const rng = seedrandom(props.name)
+  const campus = campuses[Math.floor(rng()* campuses.length)];
+  return(
     <div>
-      <h1>{props.course}</h1>
+      <p>My name is {props.name} and iam student of <strong> {campus} </strong></p>
     </div>
   )
 }
 
-
 const Total = (props) => {
+  console.log(props)
   return (
     <div>
       <p>
-        Number of exercises : {props.total}
+        Number of exercises : {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}
       </p>
     </div>
   )
@@ -27,35 +36,76 @@ const Part = (props) => {
 }
 
 
-const Content = () => {
-  const part1 = "Fundamental of React"
-  const exercises1 = 10
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7
-  const part3 = 'State of a component'
-  const exercises3 = 14
+const Content = (props) => {
+
   return (
     <div>
-      <Part course={part1} excersise={exercises1}/>
-      <Part course={part2} excersise={exercises2}/>
-      <Part course={part3} excersise={exercises3}/>
+      <Part course={props.parts[0].name} excersise={props.parts[0].exercises}/>
+      <Part course={props.parts[1].name} excersise={props.parts[1].exercises}/>
+      <Part course={props.parts[2].name} excersise={props.parts[2].exercises}/>
     </div>
   )
 }
+
+const Hello = ({name, age}) => {
+  const bornYear = () => new Date().getFullYear() - age
+
+  return (
+    <div>
+      <p>
+        Hello {name}, you are {age} years old
+      </p>
+      <p>so you probably born in {bornYear()}</p>
+    </div>
+  )
+}
+
 
 
 const App = () => {
-  const course = "Half Stack application development"
+  const name = "Peter"
+  const age = 10
+  
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7
+      },
+      {
+        name: 'State of a component',
+        exercises: 14
+      }
+    ]
+  }
 
-  return(
+  return (
     <div>
-      <Header course={course} />
-      <Content />
-      <Total total = {10 + 7 + 14}/>
+      <Header course={course.name}/>
+      <Content parts={course.parts} />
+      <Total parts={course.parts} />
+
+
+      <Hello name="Maya" age={19+20}/>
+      <Hello name={name} age={age}/>
+      <Hello name="Agung" age={26}/>
+
+      <Identity name={"Agung Kurniawan"} />   
+      <Identity name={"Sriyanto "} />   
+      <Identity name={"Herhudaya Perkasa "} />   
+      <Identity name={"Husni Arrafat Ulinnuha"} />   
+      <Identity name={"Anis Sofiana"} /> 
+      <Identity name={"Agung Kurniawan, S.kom, MB"} /> 
+
     </div>
+
+  
   )
-
 }
-
 
 export default App
