@@ -1,35 +1,64 @@
 import {useState} from 'react'
 
-const Display = ({counter}) => <div><h2 className='text-center'>{counter}</h2></div>
 
-const Button = ({onClick, text}) => {
+const History = (props) => {
+  if (props.allClicks.length === 0){
+    return (
+      <div>
+        the app is used by pressing the buttons
+      </div>
+    )
+  }
   return(
-    <button onClick={onClick} className="border btn btn-lg mr-3">
+    <div>
+      button press history : {props.allClicks.join("-")}
+    </div>
+  )
+}
+
+const Button = ({handleClick, text}) => {
+  return(
+    <button onClick={handleClick}>
       {text}
     </button>
   )
 }
 
-const App = () => {
-  const [counter, setCounter] = useState(0)
 
-  const increaseByThree = () => setCounter(counter + 3)
-  const decreaseByOne = () => setCounter(counter - 1)
-  const setToZero = () => setCounter(0)
+const App = () => {
+  const [left, setLeft] = useState(0)
+  const [right, setRight] = useState(0)
+  const [allClicks, setAll] = useState([])
+
+  const handleLeftClick = () => {
+    setAll(allClicks.concat('L'))
+    setLeft(left + 1)
+  }
+
+  const handleRightClick = () => {
+    setAll(allClicks.concat('R'))
+    setRight(right + 1)
+  }
+
+  const resetValue = () => {
+    setLeft(0)
+    setRight(0)
+    setAll([])
+  }
 
   return(
-    <div className='container mt-5'>
-      
-      <Display counter={counter}/>
+    <div>
+      {left}
+      <Button handleClick={handleLeftClick} text={"Left"}/>
+      <Button handleClick={handleRightClick} text={"Right"}/>
+      {right}
 
-      <div className='d-flex justify-content-center mt-4'>
-        <Button onClick={setToZero} text={"reset"}/>
-        <Button onClick={increaseByThree} text={"+3"}/>
-        <Button color="danger" onClick={decreaseByOne} text={"-1"}/>
-      </div>
-
+      <History allClicks={allClicks}/>
+      <Button handleClick={resetValue} text={"Reset"}/>
     </div>
   )
 
 }
+
+
 export default App
