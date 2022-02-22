@@ -13,6 +13,9 @@ const App = () => {
   const goodHandler = () => setGood(good + 1)
   const neutralHandler = () => setNeutral(neutral + 1)
   const badHandler = () => setBad(bad + 1)
+  const total = good + bad + neutral
+  const average = (good - bad) / total
+  const positive = good / total
 
   return(
     <div>
@@ -22,10 +25,14 @@ const App = () => {
       <Button handler={badHandler} text={"Bad"} />
 
       <LargeText text={"statistics"}/>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-
+      <p>
+      good {good} <br/>
+      neutral {neutral} <br/>
+      bad {bad} <br/>
+      all {total} <br/>
+      average {average} <br/>
+      positive {positive} %
+      </p>
     </div>
   )
 
