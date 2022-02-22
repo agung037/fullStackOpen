@@ -1,44 +1,33 @@
 import {useState} from 'react'
 
+const Display = ({counter}) => <div><h2 className='text-center'>{counter}</h2></div>
+
+const Button = ({onClick, text}) => {
+  return(
+    <button onClick={onClick} className="border btn btn-lg mr-3">
+      {text}
+    </button>
+  )
+}
+
 const App = () => {
-  let [counter, setCounter] = useState(0)
+  const [counter, setCounter] = useState(0)
 
-  // setTimeout(
-  //   () => setCounter(counter + 1),
-  //   1000
-  // )
-
-  const handleClick = () => {
-    console.log("button clicked")
-    
-    if (counter >= 15)
-    {
-      setCounter(counter = 0)
-    }else{
-      setCounter(counter += 3)
-    }
-  }
-
-  const handleClickMinus = () => {
-    setCounter(counter - 1)
-  }
-
-  console.log("rendering ", counter)
+  const increaseByThree = () => setCounter(counter + 3)
+  const decreaseByOne = () => setCounter(counter - 1)
+  const setToZero = () => setCounter(0)
 
   return(
-    <div>
-
-      <p>
-        {counter}
-      </p>
-
-      <button onClick={handleClick}> 
-        benar +3
-      </button>
+    <div className='container mt-5'>
       
-      <button onClick={handleClickMinus}>
-        salah -1
-      </button>
+      <Display counter={counter}/>
+
+      <div className='d-flex justify-content-center mt-4'>
+        <Button onClick={setToZero} text={"reset"}/>
+        <Button onClick={increaseByThree} text={"+3"}/>
+        <Button color="danger" onClick={decreaseByOne} text={"-1"}/>
+      </div>
+
     </div>
   )
 
