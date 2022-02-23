@@ -1,110 +1,79 @@
-const seedrandom = require('seedrandom');
+import { useState } from "react";
 
-const Header = (props) => {
-  return <h1>{props.course}</h1>
+const Anecdotes = ({votes, text}) => {
+    return(
+      <div>
+          <p>{text}</p>
+          <p>has {votes} votes</p>
+      </div>
+    )
 }
-
-const Identity = (props) => {
-  const campuses = ['Harvard', 'Yale University', 'Priceton', 'Columbia University', 'Upenn', 'University of Helsinki', 'TU Munich']
-  const rng = seedrandom(props.name)
-  const campus = campuses[Math.floor(rng()* campuses.length)];
-  return(
-    <div>
-      <p>My name is {props.name} and iam student of <strong> {campus} </strong></p>
-    </div>
-  )
-}
-
-const Total = (props) => {
-  console.log(props)
-  return (
-    <div>
-      <p>
-        Number of exercises : {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}
-      </p>
-    </div>
-  )
-}
-
-const Part = (props) => {
-
-  return(
-    <div>
-      <p>{props.course} | {props.excersise}</p>
-    </div>
-  )
-}
-
-
-const Content = (props) => {
-
-  return (
-    <div>
-      <Part course={props.parts[0].name} excersise={props.parts[0].exercises}/>
-      <Part course={props.parts[1].name} excersise={props.parts[1].exercises}/>
-      <Part course={props.parts[2].name} excersise={props.parts[2].exercises}/>
-    </div>
-  )
-}
-
-const Hello = ({name, age}) => {
-  const bornYear = () => new Date().getFullYear() - age
-
-  return (
-    <div>
-      <p>
-        Hello {name}, you are {age} years old
-      </p>
-      <p>so you probably born in {bornYear()}</p>
-    </div>
-  )
-}
-
-
 
 const App = () => {
-  const name = "Peter"
-  const age = 10
-  
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      }
-    ]
+  const anecdotes = [
+    'If it hurts, do it more often',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients'
+  ]
+   
+  const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState({
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+    5:0,
+    6:0
+  })
+
+  const [mostVotes, setMostVotes] = useState(0)
+
+
+  const handleNext = () => {
+      // create random integer from 0 - anecdotes length
+      const randomIndex = Math.floor((Math.random() * anecdotes.length));
+
+
+      // assign random number to change the anecdotes
+      setSelected(randomIndex)
+  }
+
+  const handleVote = () => {
+    // create copy of object
+    const copy = { ...points }
+
+    // add the current selected points copy with 1
+    copy[selected] += 1
+
+    // set the real points with copy points
+    setPoints(copy)
+    
+    // find the maximum value
+    const max = Object.keys(points).reduce((a, b) => points[a] > points[b] ? a : b)
+    
+    // set most votes with maximum key object
+    setMostVotes(max)
   }
 
   return (
     <div>
-      <Header course={course.name}/>
-      <Content parts={course.parts} />
-      <Total parts={course.parts} />
+      <h2>Anecdotes of the day : </h2>
+      <Anecdotes text={anecdotes[selected]} votes={points[selected]}/>
 
+      <p>
+        <button onClick={handleVote}>Vote</button>
+        <button onClick={handleNext}>next anecdotes</button>
+      </p>
 
-      <Hello name="Maya" age={19+20}/>
-      <Hello name={name} age={age}/>
-      <Hello name="Agung" age={26}/>
-
-      <Identity name={"Agung Kurniawan"} />   
-      <Identity name={"Sriyanto "} />   
-      <Identity name={"Herhudaya Perkasa "} />   
-      <Identity name={"Husni Arrafat Ulinnuha"} />   
-      <Identity name={"Anis Sofiana"} /> 
-      <Identity name={"Agung Kurniawan, S.kom, MB"} /> 
+      <h2>Anecdotes with the most vodes </h2>
+      <Anecdotes text={anecdotes[mostVotes]} votes={points[mostVotes]}/>
 
     </div>
-
-  
   )
 }
 
