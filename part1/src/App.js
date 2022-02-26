@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+
 const Anecdotes = ({votes, text}) => {
     return(
       <div>
@@ -76,5 +77,8 @@ const App = () => {
     </div>
   )
 }
+
+
+
 
 export default App
