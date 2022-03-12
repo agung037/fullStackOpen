@@ -1,0 +1,10 @@
+GET http://localhost:3001/api/notes
+
+###
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+    "content": "5 Permen Milkita setara segelas susu",
+    "important": false
+}
