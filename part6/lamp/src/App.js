@@ -7,7 +7,7 @@ const App = () => {
     <>
       <Box m={6}>
         <Center>
-          <Heading>Lampu</Heading>
+          <Heading>Lampu Sederhana</Heading>
         </Center>
       </Box>
 
